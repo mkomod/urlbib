@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+[ -z "$1" ] && echo "Please provide a URL" && exit
+[ -z "$2" ] && echo "Please provide a reference name" && exit
+
+
+REF_NAME=$2
+URL=$1
+TITLE=$(wget -qO- $1 | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si')
+NOTE=$(date +"%d/%m/%Y")
+
+printf '%s\n' \
+"@misc{$REF_NAME," \
+"	author = {}," \
+"	title = {$TITLE}," \
+"	howpublished = {\\url{$URL}}," \
+"	month = {}," \
+"	year = {}," \
+"	note = {(Accessed on $NOTE)}" \
+"}" 
+
+exit 1
+
+
